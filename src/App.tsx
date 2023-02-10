@@ -1,12 +1,24 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import cls from 'classnames';
 
 import Button from "./components/CounterButton";
-import './App.scss'
-
+import './App.scss';
 
 const App: FC<{}> = () => {
   const [count, setCount] = useState<number>(0);
+
+  const resetCount = (event: KeyboardEvent) => {
+    if (event.key === "Escape") setCount(0);
+  };
+  
+  useEffect(() => {
+    document.addEventListener("keydown", resetCount);
+
+    return () => {
+      document.removeEventListener("keydown", resetCount);
+    };
+  }, []);
+
   return (
     <div className="mainContainer">
       <h1 className={cls(
